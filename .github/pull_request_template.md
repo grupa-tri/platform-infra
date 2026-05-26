@@ -1,14 +1,14 @@
-## What
+## What?
 
 <short description>
 
-## Why
+## Why?
 
 <context>
 
 Closes #<issue-number>
 
-## How tested
+## How tested?
 
 - [ ] Changes verified locally or in CI (if applicable)
 - [ ] All commits are signed
