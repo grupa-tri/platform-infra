@@ -1,0 +1,24 @@
+name: Task
+description: Platform or infrastructure task
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: Why is this needed and what should be true when we are done?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What to do files, settings, checklists, or steps.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: How do we verify this task is complete?
+    validations:
+      required: true
