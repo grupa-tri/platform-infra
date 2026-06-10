@@ -18,3 +18,18 @@ This repo manages GCP infrastructure with Terraform. Version constraints and pro
 | `project_id` | GCP project ID | — |
 | `region` | Primary region | `europe-west3` |
 | `zone` | Zone location | `europe-west3-a` |
+
+## Required services
+
+The following GCP APIs are enabled automatically via `apis.tf` when Terraform is applied:
+
+| Service | API |
+| --- | --- |
+| Compute Engine | `compute.googleapis.com` |
+| Kubernetes Engine | `container.googleapis.com` |
+| Cloud DNS | `dns.googleapis.com` |
+| Secret Manager | `secretmanager.googleapis.com` |
+| IAM | `iam.googleapis.com` |
+| Cloud Resource Manager | `cloudresourcemanager.googleapis.com` |
+| Cloud Storage | `storage.googleapis.com` |
+| Cloud Logging | `logging.googleapis.com` |
