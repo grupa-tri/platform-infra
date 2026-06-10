@@ -14,3 +14,9 @@ variable "zone" {
   type        = string
   default     = "europe-west3-a"
 }
+
+variable "environment" {
+  description = "Environment name used in resource names."
+  type = string
+  default = "hochschule-burgenland"
+}
