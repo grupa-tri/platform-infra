@@ -11,7 +11,7 @@ locals {
   ]
 }
 
-resource "google_project_service" "required" {
+resource "google_project_service" "required_apis" {
   for_each = toset(local.required_services)
 
   service            = each.key
