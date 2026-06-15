@@ -21,3 +21,9 @@ resource "google_compute_subnetwork" "infra" {
     ip_cidr_range = var.services_cidr
   }
 }
+
+resource "google_compute_router" "infra" {
+  name    = "${var.environment}-infra-router"
+  region  = var.region
+  network = google_compute_network.infra.id
+}
