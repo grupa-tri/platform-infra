@@ -10,4 +10,14 @@ resource "google_compute_subnetwork" "infra" {
   region        = var.region
   network       = google_compute_network.infra.id
   ip_cidr_range = var.subnet_cidr
+
+  secondary_ip_range {
+    range_name    = "pods"
+    ip_cidr_range = var.pods_cidr
+  }
+
+  secondary_ip_range {
+    range_name    = "services"
+    ip_cidr_range = var.services_cidr
+  }
 }
