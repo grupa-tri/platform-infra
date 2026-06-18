@@ -18,7 +18,7 @@ variable "zone" {
 variable "environment" {
   description = "Environment name used in resource names."
   type        = string
-  default     = "hochschule-burgenland"
+  default     = "group-c"
 }
 
 variable "subnet_cidr" {
