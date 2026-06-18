@@ -90,5 +90,5 @@ resource "google_project_iam_member" "config_connector_owner" {
 resource "google_service_account_iam_member" "config_connector_workload_identity" {
   service_account_id = google_service_account.config_connector.name
   role               = "roles/iam.workloadIdentityUser"
-  member = "serviceAccount:${local.wi_pool}[cnrm-system/cnrm-controller-manager]"
+  member             = "serviceAccount:${local.wi_pool}[cnrm-system/cnrm-controller-manager]"
 }
