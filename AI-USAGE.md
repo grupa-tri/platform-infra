@@ -38,3 +38,25 @@ terraform validate -> success
 
 terraform plan -> plan looking good
 ```
+
+## Cloud DNS managed zone
+
+### Prompt
+
+> I need to add a `dns.tf` that creates the public Cloud DNS managed zone for the platform domain. It should depend on the enabled GCP APIs. Use an environment-prefixed name and a variable for the domain. Also consider suggestions for `outputs.tf` and `variables.tf` so the zone nameservers are exposed and the domain is configurable.
+
+### Validated
+
+Checked the managed zone resource and confirmed `visibility` defaults to public, but set it explicitly since the zone has to be public for ExternalDNS and cert-manager:
+https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/dns_managed_zone
+
+Verified the `dns_name` has to be a FQDN ending with a trailing dot before applying.
+
+performed
+
+```bash
+terraform fmt                 -> no changes
+terraform init -backend=false -> success
+terraform validate            -> Success!
+tflint                        -> no issues
+```
