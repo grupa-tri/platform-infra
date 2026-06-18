@@ -43,3 +43,9 @@ variable "domain_name" {
   description = "Public domain for ExternalDNS and cert-manager DNS-01. Must end with a dot, e.g. platform.example.com."
   type        = string
 }
+
+variable "cluster_name" {
+  description = "GKE cluster name."
+  type        = string
+  default     = "cluster"
+}
