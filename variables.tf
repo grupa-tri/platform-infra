@@ -49,3 +49,21 @@ variable "cluster_name" {
   type        = string
   default     = "cluster"
 }
+
+variable "node_count" {
+  description = "Node count for cluster."
+  type        = number
+  default     = 3
+}
+
+variable "machine_type" {
+  description = "Machine type which is applied."
+  type        = string
+  default     = "e2-standard-2"
+}
+
+variable "disk_size_gb" {
+  description = "Boot disk size per node."
+  type        = number
+  default     = 30
+}
