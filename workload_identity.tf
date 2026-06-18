@@ -62,7 +62,7 @@ resource "google_service_account" "crossplane" {
   display_name = "Crossplane GCP provider"
 }
 
-# For a university demo this is simple. For production, replace roles/editor with narrower roles.
+
 resource "google_project_iam_member" "crossplane_editor" {
   project = var.project_id
   role    = "roles/editor"
@@ -73,4 +73,22 @@ resource "google_service_account_iam_member" "crossplane_wi" {
   service_account_id = google_service_account.crossplane.name
   role               = "roles/iam.workloadIdentityUser"
   member             = "serviceAccount:${local.wi_pool}[crossplane-system/crossplane]"
+}
+
+// Config Connector IAM Resources
+resource "google_service_account" "config_connector" {
+  account_id   = "${var.environment}-config-connector"
+  display_name = "Config Connector"
+}
+
+resource "google_project_iam_member" "config_connector_owner" {
+  project = var.project_id
+  role    = "roles/owner"
+  member  = "serviceAccount:${google_service_account.config_connector.email}"
+}
+
+resource "google_service_account_iam_member" "config_connector_workload_identity" {
+  service_account_id = google_service_account.config_connector.name
+  role               = "roles/iam.workloadIdentityUser"
+  member = "serviceAccount:${local.wi_pool}[cnrm-system/cnrm-controller-manager]"
 }
