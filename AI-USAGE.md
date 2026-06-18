@@ -60,3 +60,17 @@ terraform init -backend=false -> success
 terraform validate            -> Success!
 tflint                        -> no issues
 ```
+
+## GKE Service Account
+
+> Create a Google service account for kubernetes nodes in Terraform with needed IAM bindings.
+
+### Validated
+
+Checked Google documentatio. https://docs.cloud.google.com/kubernetes-engine/security/configure-node-service-accounts
+
+performed
+
+```bash
+terraform validate -> success
+```
