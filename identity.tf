@@ -2,6 +2,7 @@ locals {
   wi_pool = "${var.project_id}.svc.id.goog"
 }
 
+// External DNS IAM Resources
 resource "google_service_account" "external_dns" {
   account_id   = "${var.environment}-external-dns"
   display_name = "ExternalDNS"
@@ -19,6 +20,7 @@ resource "google_service_account_iam_member" "external_dns_wi" {
   member             = "serviceAccount:${local.wi_pool}[platform-system/external-dns]"
 }
 
+// CertManager IAM Resources
 resource "google_service_account" "cert_manager" {
   account_id   = "${var.environment}-cert-manager"
   display_name = "cert-manager DNS-01"
@@ -36,6 +38,7 @@ resource "google_service_account_iam_member" "cert_manager_wi" {
   member             = "serviceAccount:${local.wi_pool}[cert-manager/cert-manager]"
 }
 
+// External Secrets IAM Resources
 resource "google_service_account" "external_secrets" {
   account_id   = "${var.environment}-external-secrets"
   display_name = "External Secrets Operator"
@@ -51,4 +54,23 @@ resource "google_service_account_iam_member" "external_secrets_wi" {
   service_account_id = google_service_account.external_secrets.name
   role               = "roles/iam.workloadIdentityUser"
   member             = "serviceAccount:${local.wi_pool}[external-secrets/external-secrets]"
+}
+
+// Crossplane IAM Resources
+resource "google_service_account" "crossplane" {
+  account_id   = "${var.environment}-crossplane"
+  display_name = "Crossplane GCP provider"
+}
+
+# For a university demo this is simple. For production, replace roles/editor with narrower roles.
+resource "google_project_iam_member" "crossplane_editor" {
+  project = var.project_id
+  role    = "roles/editor"
+  member  = "serviceAccount:${google_service_account.crossplane.email}"
+}
+
+resource "google_service_account_iam_member" "crossplane_wi" {
+  service_account_id = google_service_account.crossplane.name
+  role               = "roles/iam.workloadIdentityUser"
+  member             = "serviceAccount:${local.wi_pool}[crossplane-system/crossplane]"
 }
