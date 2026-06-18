@@ -55,3 +55,34 @@ resource "google_container_cluster" "cluster" {
 
   depends_on = [google_project_service.required_apis]
 }
+
+resource "google_container_node_pool" "primary" {
+  name     = "primary"
+  cluster  = google_container_cluster.cluster.name
+  location = google_container_cluster.cluster.location
+
+  node_count = var.node_count
+
+  node_config {
+    machine_type = var.machine_type
+    disk_type    = "pd-standard"
+    disk_size_gb = var.disk_size_gb
+
+    service_account = google_service_account.gke_nodes.email
+    oauth_scopes    = ["https://www.googleapis.com/auth/cloud-platform"]
+
+    labels = {
+      environment = var.environment
+      role        = "platform"
+    }
+
+    workload_metadata_config {
+      mode = "GKE_METADATA"
+    }
+  }
+
+  management {
+    auto_repair  = true
+    auto_upgrade = true
+  }
+}
