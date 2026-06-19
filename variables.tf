@@ -67,3 +67,26 @@ variable "disk_size_gb" {
   type        = number
   default     = 30
 }
+
+variable "git_token" {
+  type      = string
+  sensitive = true
+}
+
+variable "git_url" {
+  type = string
+}
+
+variable "git_user" {
+  type = string
+}
+
+variable "git_branch" {
+  type    = string
+  default = "main"
+}
+
+variable "flux_cluster_path" {
+  type    = string
+  default = "clusters/my-cluster"
+}
