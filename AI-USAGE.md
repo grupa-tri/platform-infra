@@ -74,3 +74,27 @@ performed
 ```bash
 terraform validate -> success
 ```
+
+## Flux GitOps bootstrap
+
+### Prompt
+
+> Add the Flux bootstrap to the existing flat Terraform setup: configure the `flux` provider from the GKE cluster (endpoint, CA cert, access token) and add `flux_bootstrap_git` at the root. Git auth (url, branch, user, token) must come from variables and the token must never be committed.
+
+### Validated
+
+Pinned the provider to `~> 1.8`; `terraform init` resolved this to flux v1.8.8:
+https://registry.terraform.io/providers/fluxcd/flux/latest
+
+Configured the `flux` provider's `kubernetes` and `git` blocks based on the official GitHub-PAT bootstrap example, adapted to GKE: the cluster connection uses a short-lived token from `data.google_client_config.default.access_token` plus `base64decode` of `master_auth[0].cluster_ca_certificate` — no client certs and no kubeconfig file.
+
+Set `depends_on` on the node pool as well as the cluster, otherwise the Flux controllers would stay Pending with no schedulable nodes.
+
+performed
+
+​```bash
+terraform fmt                 -> formatted providers.tf
+terraform init -backend=false -> flux v1.8.8 installed, lock updated
+terraform validate            -> Success!
+tflint                        -> no issues
+​```
