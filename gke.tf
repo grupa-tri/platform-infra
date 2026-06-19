@@ -86,3 +86,9 @@ resource "google_container_node_pool" "primary" {
     auto_upgrade = true
   }
 }
+
+resource "flux_bootstrap_git" "this" {
+  path = var.flux_cluster_path
+
+  depends_on = [google_container_cluster.cluster, google_container_node_pool.primary]
+}
