@@ -18,6 +18,8 @@ resource "google_service_account_iam_member" "external_dns_wi" {
   service_account_id = google_service_account.external_dns.name
   role               = "roles/iam.workloadIdentityUser"
   member             = "serviceAccount:${local.wi_pool}[platform-system/external-dns]"
+
+  depends_on = [google_container_cluster.cluster]
 }
 
 // CertManager IAM Resources
@@ -36,6 +38,8 @@ resource "google_service_account_iam_member" "cert_manager_wi" {
   service_account_id = google_service_account.cert_manager.name
   role               = "roles/iam.workloadIdentityUser"
   member             = "serviceAccount:${local.wi_pool}[cert-manager/cert-manager]"
+
+  depends_on = [google_container_cluster.cluster]
 }
 
 // External Secrets IAM Resources
@@ -54,6 +58,8 @@ resource "google_service_account_iam_member" "external_secrets_wi" {
   service_account_id = google_service_account.external_secrets.name
   role               = "roles/iam.workloadIdentityUser"
   member             = "serviceAccount:${local.wi_pool}[external-secrets/external-secrets]"
+
+  depends_on = [google_container_cluster.cluster]
 }
 
 // Crossplane IAM Resources
@@ -73,6 +79,8 @@ resource "google_service_account_iam_member" "crossplane_wi" {
   service_account_id = google_service_account.crossplane.name
   role               = "roles/iam.workloadIdentityUser"
   member             = "serviceAccount:${local.wi_pool}[crossplane-system/crossplane]"
+
+  depends_on = [google_container_cluster.cluster]
 }
 
 // Config Connector IAM Resources
