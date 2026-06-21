@@ -5,6 +5,7 @@ provider "registry.terraform.io/fluxcd/flux" {
   version     = "1.8.8"
   constraints = "~> 1.8"
   hashes = [
+    "h1:HP866PhXPcgdjN7B76ftIfD9xsytomWcqTtO86ttOFI=",
     "h1:P8nfEhGyW/rImanPJO18DnN9hcXLVPbQtL7BIdIvnb8=",
     "zh:0a9dfd33c129273512ef99c63a191a80f819e7866efe9a22b02b67464301a50b",
     "zh:3148831090024a665c976af57827e9a3bb7fb848e0373d24f62adcff4559c1af",
