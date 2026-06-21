@@ -1,4 +1,9 @@
 terraform {
+  backend "gcs" {
+    bucket = "turing-cell-497816-p0-terraform-state"
+    prefix = "platform-infra"
+  }
+
   required_version = ">= 1.10.0"
 
   required_providers {
