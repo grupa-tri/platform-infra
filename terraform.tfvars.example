@@ -1,0 +1,19 @@
+project_id  = "my-gcp-project"
+domain_name = "platform.example.com."
+git_url     = "https://github.com/org/repo.git"
+git_user    = "git-user"
+git_token   = "ghp_..."
+
+# Optional (defaults from variables.tf):
+# region             = "europe-west3"
+# zone               = "europe-west3-a"
+# environment        = "group-c"
+# subnet_cidr        = "10.10.0.0/20"
+# pods_cidr          = "10.20.0.0/16"
+# services_cidr      = "10.30.0.0/20"
+# cluster_name       = "cluster"
+# node_count         = 3
+# machine_type       = "e2-standard-2"
+# disk_size_gb       = 30
+# git_branch         = "main"
+# flux_cluster_path  = "clusters/my-cluster"
