@@ -17,7 +17,7 @@ resource "google_project_iam_member" "external_dns_admin" {
 resource "google_service_account_iam_member" "external_dns_wi" {
   service_account_id = google_service_account.external_dns.name
   role               = "roles/iam.workloadIdentityUser"
-  member             = "serviceAccount:${local.wi_pool}[platform-system/external-dns]"
+  member             = "serviceAccount:${local.wi_pool}[external-dns/external-dns]"
 
   depends_on = [google_container_cluster.cluster]
 }
