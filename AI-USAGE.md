@@ -92,9 +92,25 @@ Set `depends_on` on the node pool as well as the cluster, otherwise the Flux con
 
 performed
 
-​```bash
+​`bash
 terraform fmt                 -> formatted providers.tf
 terraform init -backend=false -> flux v1.8.8 installed, lock updated
 terraform validate            -> Success!
 tflint                        -> no issues
-​```
+​`
+
+## Apply script
+
+### Promt
+
+> Erstelle mir ein shell script um einen angegebenen bucket für den terraform state zu erstellen und anschließend terraform apply ausführt. Achte darauf das dafür ein eigener service account genutzt wird.
+
+### Validated
+
+Checked script with own knowledge and tested it.
+
+performed
+
+```bash
+./apply.sh
+```
