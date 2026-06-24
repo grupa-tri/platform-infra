@@ -64,6 +64,54 @@ One-time setup. After this, the cluster reconciles itself from Git.
 
 Steps 3 and 4 are manual glue points. Everything else is automated through Terraform and Flux.
 
+### Terraform
+
+This repo manages GCP infrastructure with Terraform. Version constraints and provider configuration are defined in `versions.tf` and `providers.tf` input variables in `variables.tf`.
+
+| Component       | Source             | Version     |
+| --------------- | ------------------ | ----------- |
+| Terraform       | —                  | `>= 1.10.0` |
+| Google provider | `hashicorp/google` | `~> 7.0`    |
+
+| Variable     | Description    | Default          |
+| ------------ | -------------- | ---------------- |
+| `project_id` | GCP project ID | —                |
+| `region`     | Primary region | `europe-west3`   |
+| `zone`       | Zone location  | `europe-west3-a` |
+
+#### Required services
+
+The following GCP APIs are enabled automatically via `apis.tf` when Terraform is applied:
+
+| Service                | API                                   |
+| ---------------------- | ------------------------------------- |
+| Compute Engine         | `compute.googleapis.com`              |
+| Kubernetes Engine      | `container.googleapis.com`            |
+| Cloud DNS              | `dns.googleapis.com`                  |
+| Secret Manager         | `secretmanager.googleapis.com`        |
+| IAM                    | `iam.googleapis.com`                  |
+| Cloud Resource Manager | `cloudresourcemanager.googleapis.com` |
+| Cloud Storage          | `storage.googleapis.com`              |
+| Cloud Logging          | `logging.googleapis.com`              |
+
+#### GKE cluster
+
+Terraform provisions a zonal GKE cluster (`group-c-cluster` in `europe-west3-a` by default). Specs are defined in `gke.tf` and `variables.tf`.
+
+| Setting            | Default / value                          |
+| ------------------ | ---------------------------------------- |
+| Node pool          | `primary` (single pool)                  |
+| Nodes              | 3 × `e2-standard-2` (2 vCPU, 8 GB RAM)   |
+| Boot disk          | 30 GB `pd-standard` per node             |
+| Release channel    | `REGULAR`                                |
+| Networking         | VPC-native (`10.10.0.0/20` subnet)       |
+| Pod / service CIDR | `10.20.0.0/16` / `10.30.0.0/20`         |
+| Workload Identity  | enabled                                  |
+| Config Connector   | enabled                                  |
+| Node management    | auto-repair and auto-upgrade             |
+
+`node_count`, `machine_type`, and `disk_size_gb` can be overridden in `terraform.tfvars`.
+
 ## How to add a tenant
 
 Add a new `ApplicationInstance` YAML in [platform-gitops](https://github.com/grupa-tri/platform-gitops). Follow [How to contribute](#how-to-contribute) to get the change merged.
@@ -103,54 +151,3 @@ Refs #42
 
 Pull requests run Terraform fmt, validate, and tflint via [.github/workflows/terraform.yml](.github/workflows/terraform.yml).
 
-## Github Actions
-
-Terraform formatting, validation, and linting checks run automatically on every pull request.
-
-## Terraform
-
-This repo manages GCP infrastructure with Terraform. Version constraints and provider configuration are defined in `versions.tf` and `providers.tf` input variables in `variables.tf`.
-
-| Component       | Source             | Version     |
-| --------------- | ------------------ | ----------- |
-| Terraform       | —                  | `>= 1.10.0` |
-| Google provider | `hashicorp/google` | `~> 7.0`    |
-
-| Variable     | Description    | Default          |
-| ------------ | -------------- | ---------------- |
-| `project_id` | GCP project ID | —                |
-| `region`     | Primary region | `europe-west3`   |
-| `zone`       | Zone location  | `europe-west3-a` |
-
-## Required services
-
-The following GCP APIs are enabled automatically via `apis.tf` when Terraform is applied:
-
-| Service                | API                                   |
-| ---------------------- | ------------------------------------- |
-| Compute Engine         | `compute.googleapis.com`              |
-| Kubernetes Engine      | `container.googleapis.com`            |
-| Cloud DNS              | `dns.googleapis.com`                  |
-| Secret Manager         | `secretmanager.googleapis.com`        |
-| IAM                    | `iam.googleapis.com`                  |
-| Cloud Resource Manager | `cloudresourcemanager.googleapis.com` |
-| Cloud Storage          | `storage.googleapis.com`              |
-| Cloud Logging          | `logging.googleapis.com`              |
-
-### GKE cluster
-
-Terraform provisions a zonal GKE cluster (`group-c-cluster` in `europe-west3-a` by default). Specs are defined in `gke.tf` and `variables.tf`.
-
-| Setting            | Default / value                          |
-| ------------------ | ---------------------------------------- |
-| Node pool          | `primary` (single pool)                  |
-| Nodes              | 3 × `e2-standard-2` (2 vCPU, 8 GB RAM)   |
-| Boot disk          | 30 GB `pd-standard` per node             |
-| Release channel    | `REGULAR`                                |
-| Networking         | VPC-native (`10.10.0.0/20` subnet)       |
-| Pod / service CIDR | `10.20.0.0/16` / `10.30.0.0/20`         |
-| Workload Identity  | enabled                                  |
-| Config Connector   | enabled                                  |
-| Node management    | auto-repair and auto-upgrade             |
-
-`node_count`, `machine_type`, and `disk_size_gb` can be overridden in `terraform.tfvars`.
