@@ -100,3 +100,10 @@ resource "google_service_account_iam_member" "config_connector_workload_identity
   role               = "roles/iam.workloadIdentityUser"
   member             = "serviceAccount:${local.wi_pool}[cnrm-system/cnrm-controller-manager]"
 }
+
+// Lecturer cluster admin
+resource "google_project_iam_member" "lecturer_gke_admin" {
+  project = var.project_id
+  role    = "roles/container.admin"
+  member  = "user:daniel.muehlbachler-pietrzykowski@hochschule-burgenland.at"
+}
